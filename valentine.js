@@ -22,9 +22,15 @@ envelope.addEventListener("click", () => {
 
 // Logic to move the NO btn
 
-noBtn.addEventListener("mouseover", () => {
-    const min = 200;
-    const max = 200;
+// 1. Create a function to handle the movement
+const moveBtn = (e) => {
+    // Optional: Prevent the default tap behavior on mobile
+    if(e && e.type === 'touchstart') e.preventDefault();
+
+    // Use smaller movement for mobile so it doesn't fly off-screen
+    const isMobile = window.innerWidth <= 768;
+    const min = isMobile ? 50 : 200;
+    const max = isMobile ? 100 : 200;
 
     const distance = Math.random() * (max - min) + min;
     const angle = Math.random() * Math.PI * 2;
@@ -34,28 +40,15 @@ noBtn.addEventListener("mouseover", () => {
 
     noBtn.style.transition = "transform 0.3s ease";
     noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-});
+}
 
-// Logic to make YES btn to grow
+// 2. Add event listener for Desktop (Hover)
+noBtn.addEventListener("mouseover", moveBtn);
 
-// let yesScale = 1;
+// 3. Add event listener for Mobile (Touch)
+noBtn.addEventListener("touchstart", moveBtn);
 
-// yesBtn.style.position = "relative"
-// yesBtn.style.transformOrigin = "center center";
-// yesBtn.style.transition = "transform 0.3s ease";
 
-// noBtn.addEventListener("click", () => {
-//     yesScale += 2;
-
-//     if (yesBtn.style.position !== "fixed") {
-//         yesBtn.style.position = "fixed";
-//         yesBtn.style.top = "50%";
-//         yesBtn.style.left = "50%";
-//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-//     }else{
-//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-//     }
-// });
 
 // YES is clicked
 
@@ -69,4 +62,5 @@ yesBtn.addEventListener("click", () => {
     buttons.style.display = "none";
 
     finalText.style.display = "block";
+
 });
